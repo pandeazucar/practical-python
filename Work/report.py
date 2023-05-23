@@ -6,6 +6,11 @@ import csv
 
 
 def main():
+    '''
+    This script is meant to be executed at the terminal. Given a list of stocks and
+    a dictionary of current stock prices, it computes the current loss/gain of
+    the user's stocks. It also prints out a table showing the loss/gain.
+    '''
     portfolio = read_portfolio('Data/portfolio.csv')
     prices = read_prices('Data/prices.csv')
     report = make_report(portfolio, prices)
@@ -22,6 +27,10 @@ def main():
 
 
 def read_portfolio(filename):
+    '''
+    Reads a csv file where the user's stocks are clearly defined
+    based on a structure of name, shares, price
+    '''
     # define empty portfolio which is the variable that's going to return
     portfolio = []
     # read the file and save each row like a tuple, then add it to the portfolio
@@ -41,6 +50,11 @@ def read_portfolio(filename):
 
 
 def read_prices(filename):
+    '''
+    Reads a file detailing the current prices of stocks.
+    The program will open and read from the file and create a structured
+    dictionary, which will be used as input for the loss/gain calculations.
+    '''
     # We are going to use an empty dictionary to insert stock values
     prices = {}
 
@@ -56,6 +70,11 @@ def read_prices(filename):
 
 
 def make_report(stocks, prices):
+    '''
+    This function computes the loss/gain of each stock based on current
+    prices, and also prints a formatted and user-friendly table
+    showing the data.
+    '''
     # Output needs to be a list of tuple containing: name, shares, price, change
     report_rows = []
     for stock in stocks:
@@ -68,24 +87,3 @@ def make_report(stocks, prices):
 
 if __name__ == "__main__":
     main()
-
-# Compute gain/loss of current stocks
-'''
-pf = read_portfolio('Data/portfolio.csv')
-current_prices = read_prices('Data/prices.csv')
-total = 0.0
-for s in pf:
-    total += int(s['shares']) * float(s['price'])
-
-current_value = 0.0
-for item in pf:
-    current_value += item['shares'] * current_prices[item['name']]
-
-difference = current_value - total
-if difference > 0:
-    print(f"You have a gain of ${difference:,.2f}")
-elif difference < 0:
-    print(f"You have a loss of ${difference:,.2f}")
-else:
-    print("Your stock portfolio is valued the same as yesterday")
-'''
