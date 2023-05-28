@@ -3,15 +3,22 @@
 # Exercise 2.4
 
 import csv
+import sys
+
+# Enter portfolio filename
+if len(sys.argv) == 2:
+    url = sys.argv[1]
+else:
+    url = input("Please enter a filename: ")
 
 
 def main():
-    '''
+    """
     This script is meant to be executed at the terminal. Given a list of stocks and
     a dictionary of current stock prices, it computes the current loss/gain of
     the user's stocks. It also prints out a table showing the loss/gain.
-    '''
-    portfolio = read_portfolio('Data/portfolio.csv')
+    """
+    portfolio = read_portfolio(url)
     prices = read_prices('Data/prices.csv')
     report = make_report(portfolio, prices)
     headers = ['Name', 'Shares', 'Price', 'Change']
@@ -23,14 +30,14 @@ def main():
     print("")
 
     for name, shares, price, change in report:
-        print(f"{name:>10s} {shares:>10d} {'$':>s}{price:>10.2f} {change:>10.2f}")
+        print(f"{name:>10s} {shares:>10d} {price:>10.2f} {change:>10.2f}")
 
 
 def read_portfolio(filename):
-    '''
+    """
     Reads a csv file where the user's stocks are clearly defined
     based on a structure of name, shares, price
-    '''
+    """
     # define empty portfolio which is the variable that's going to return
     portfolio = []
     # read the file and save each row like a tuple, then add it to the portfolio
@@ -39,10 +46,11 @@ def read_portfolio(filename):
         headers = next(reader)
         for row in reader:
             # stock = (row[0], int(row[1]), float(row[2]))
+            record = dict(zip(headers, row))
             stock = {
-                headers[0]: row[0],
-                headers[1]: int(row[1]),
-                headers[2]: float(row[2])
+                'name': record['name'],
+                'shares': int(record['shares']),
+                'price': float(record['price'])
             }
             portfolio.append(stock)
 
@@ -50,11 +58,11 @@ def read_portfolio(filename):
 
 
 def read_prices(filename):
-    '''
+    """
     Reads a file detailing the current prices of stocks.
     The program will open and read from the file and create a structured
     dictionary, which will be used as input for the loss/gain calculations.
-    '''
+    """
     # We are going to use an empty dictionary to insert stock values
     prices = {}
 
@@ -70,11 +78,11 @@ def read_prices(filename):
 
 
 def make_report(stocks, prices):
-    '''
+    """
     This function computes the loss/gain of each stock based on current
     prices, and also prints a formatted and user-friendly table
     showing the data.
-    '''
+    """
     # Output needs to be a list of tuple containing: name, shares, price, change
     report_rows = []
     for stock in stocks:
