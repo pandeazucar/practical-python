@@ -16,7 +16,12 @@ def main():
     """
     This script is meant to be executed at the terminal. Given a list of stocks and
     a dictionary of current stock prices, it computes the current loss/gain of
-    the user's stocks. It also prints out a table showing the loss/gain.
+    the user's stocks. It also prints out a table showing the loss/gain. Such as:
+        Name   Shares    Price   Change
+    -------- -------- -------- --------
+       AA     100      9.22     -22.98
+      IBM      50     106.28      15.18
+      ...     ...      .....     ......
     """
     portfolio = read_portfolio(url)
     prices = read_prices('Data/prices.csv')
